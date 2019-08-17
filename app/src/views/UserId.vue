@@ -1,6 +1,6 @@
 <template>
-	<div class="carnaval2020">
-		<h1>Carnaval 2020</h1>
+	<div class="id">
+		User id: {{$route.params.id}}
 		<router-view></router-view>
 	</div>
 </template>

@@ -1,9 +1,11 @@
 <?php
+error_reporting(E_ALL ^ E_STRICT); // debug do wamp
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Current");
 header('Access-Control-Allow-Credentials: false');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header("Content-type: application/x-www-form-urlencoded");
+// header("Content-type: application/json");
 
 define('APP_PATH', realpath(dirname(__FILE__)));
 
