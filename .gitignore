@@ -1,0 +1,3 @@
+*.properties
+api.config.json
+node_modules
