@@ -1,12 +1,12 @@
 <template>
 	<div class="user login">
-		<form class="login__form" action="login" @submit.prevent="checkUser" v-if='!logged'>
+		<form class="login__form" action="login" @submit.prevent="checkUser(consulta)" v-if='!user.logged'>
 			<label class="login__label" for="password">Senha</label>
 			<input class="login__input" type="password" id="password" name="password" v-model='password'>
 			<button class="login__button" type="submit">login</button>
 		</form>
 
-		<p class="login__status" v-if="api.message !== ''">{{api.message}}</p>
+		<p class="login__status" v-if="user.message !== ''">{{user.message}}</p>
 
 		<router-view></router-view>
 	</div>
@@ -14,34 +14,50 @@
 
 <script>
 import api from '../utils/api'
-import md5 from 'js-md5'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import fechadura from '@spurb/fechadura'
+import apiconfig from '../utils/api.config.json'
 
 export default {
 	name: 'user',
 	data () {
 		return {
-			password: '',
-			api: {
-				message: ''
-			}
+			password: ''
 		}
 	},
 	computed: {
-		...mapState(['logged'])
+		...mapState(['user']),
+		usr () { return this.$route.query.usr },
+		consulta () { return this.$route.query.consulta }
 	},
-	methods: {
-		checkUser (event) {
-			const body = new URLSearchParams({ // converte para x-www-form-urlencoded
-				'usrk': md5(this.password)
-			})
 
-			api.post('/', body)
-				.then(res => {
-					this.api.message = res.data.message
-					console.log(res)
-				})
-				.catch(err => console.error(err))
+	methods: {
+		...mapMutations([
+			'LOGIN_STATUS',
+			'LOGIN_ERROR'
+		]),
+		checkUser (consulta) {
+			if (!consulta) { this.$router.push('/') }
+
+			let body = new FormData()
+			body.set('usr', this.usr)
+			body.set('usrk', this.password)
+
+			const config = {
+				headers: {
+					Current: fechadura(apiconfig.chave, 'bicho').encript
+				}
+			}
+
+			api.post('/', body, config)
+				.then(res => this.LOGIN_STATUS(res.data))
+				.catch(err => this.LOGIN_ERROR(err))
+				.finally(() => this.goToEditor(this.user.logged, `/user/${this.usr}/${this.consulta}`))
+		},
+
+		goToEditor (logged, userPath) {
+			if (logged) this.$router.push(userPath)
+			else this.$router.push('/')
 		}
 	}
 }

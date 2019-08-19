@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL ^ E_STRICT);
 class APIKey {
 	private static $KEYS = array();
 	private static function openPropertiesFile(){

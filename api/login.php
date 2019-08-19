@@ -1,20 +1,13 @@
 <?php
-error_reporting(E_ALL ^ E_STRICT); // debug do wamp
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Current");
-header('Access-Control-Allow-Credentials: false');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header("Content-type: application/x-www-form-urlencoded");
-// header("Content-type: application/json");
-
-define('APP_PATH', realpath(dirname(__FILE__)));
-
+require_once 'classes/Headers.php';
 require_once 'classes/APIKey.php';
+
+Headers::generate();
+Headers::setAppPath();
 
 $validation = array(
 	"status" => false,
-	"message" => "admin inválido",
-	// "post" => json_encode($_POST)
+	"message" => "admin inválido"
 );
 
 if ($e = isset($_POST['usr']) and isset($_POST['usrk'])) {
@@ -35,13 +28,10 @@ if ($e = isset($_POST['usr']) and isset($_POST['usrk'])) {
 	else {
 		$validation = array(
 			"status" => false,
-			"message" => "usuário inválido",
-			// 'usr' => $_POST['usr'],
-			// 'basePath' => APP_PATH,
-			// 'Current' => $token,
-			// 'tokenCheck' => $tokenCheck
+			"message" => "usuário inválido"
 		);
 	}
 }
 echo json_encode($validation);
+
 ?>

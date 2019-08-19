@@ -19,23 +19,21 @@ const router = new Router({
 			component: () => import(/* webpackChunkName: "user" */ './views/User.vue'),
 			children: [
 				{
-					path: ':id',
-					name: 'userId',
-					component: () => import(/* webpackChunkName: "UserId" */ './views/UserId.vue'),
+					path: ':email',
+					name: 'userEmail',
+					component: () => import(/* webpackChunkName: "UserEmail" */ './views/UserEmail.vue'),
 					meta: { requiresAuth: true },
 					children: [
 						{
 							path: 'carnaval2020',
-							name: 'carnaval2020',
-							component: () => import(/* webpackChunkName: "carnaval2020" */ './views/consultas/Carnaval2020.vue'),
-							meta: { id: 100 }
-						},
-						{
-							path: 'outra',
-							name: 'Outra',
-							component: () => import(/* webpackChunkName: "outra" */ './views/consultas/Outra.vue'),
-							meta: { id: 101 }
+							name: 'Carnaval 2020',
+							component: () => import(/* webpackChunkName: "carnaval2020" */ './views/consultas/Carnaval2020.vue')
 						}
+						// ,{
+						// 	path: 'outra',
+						// 	name: 'Outra',
+						// 	component: () => import(/* webpackChunkName: "outra" */ './views/consultas/Outra.vue'),
+						// }
 					]
 				}
 			]
@@ -51,10 +49,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (!store.state.logged) {
-			next({
-				path: '/'
-			})
+		if (!store.state.user.logged) {
+			next({ path: '/' })
 		} else {
 			next()
 		}
