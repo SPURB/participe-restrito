@@ -84,7 +84,8 @@
 				"09_03": null,
 				"10_03": null,
 				"cidade": "são paulo",
-				"pa__s": "brazil"
+				"pa__s": "brazil",
+				"id": 2
 			},
 			"geometry": {
 				"type": "Point",
@@ -141,7 +142,7 @@
 				"cidade": "são paulo",
 				"pa__s": "brazil",
 				"email": "teste@teste.com",
-				"id": 2
+				"id": 3
 			},
 			"geometry": {
 				"type": "Point",
@@ -198,7 +199,7 @@
 				"cidade": "são paulo",
 				"pa__s": "brazil",
 				"email": "outro@teste.com",
-				"id": 3
+				"id": 4
 			},
 			"geometry": {
 				"type": "Point",
@@ -255,7 +256,7 @@
 				"cidade": "são paulo",
 				"pa__s": "brazil",
 				"email": null,
-				"id": 3
+				"id": 4
 			},
 			"geometry": {
 				"type": "Point",

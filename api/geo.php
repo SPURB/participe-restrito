@@ -1,13 +1,24 @@
 <?php
 require_once 'classes/Headers.php';
 Headers::generate();
-Headers::setAppPath();
+Headers::setAppPath(); // define 'APP_PATH'
 
-$features = array(
-	"message" => "Nenuma feição encontrada",
-	"status" => false,
-	"features" => array(),
-	"params" => $_GET
-);
+require_once 'classes/Base.php';
+require_once 'classes/Blocos.php';
+require_once 'classes/Percursos.php';
 
-echo json_encode($features);
+function getResponse($params) {
+	$geoType = 'unset'; // "blocos" ou "percursos" vem de request "/?geo=blocos"
+ 
+	if(isset($params['geo'])) {
+		$geoType = $params['geo'];
+	}
+
+	switch($geoType){
+		case 'blocos': return Blocos::getAll(); break; // "/?geo=blocos"
+		case 'percursos': return Percursos::getAll(); break; // "/?geo=percuros"
+		default: return Base::defaultResponse(); // "/" ou parâmetros infinidos
+	}
+}
+
+echo json_encode(getResponse($_GET));
