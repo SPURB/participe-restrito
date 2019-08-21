@@ -1,7 +1,7 @@
 <template>
 	<div class="user login">
 		<form class="login__form" action="login" @submit.prevent="checkUser(consulta)" v-if='!user.logged'>
-			<label class="login__label" for="password">Senha</label>
+			<label class="login__label" for="password">Inclua a sua chave</label>
 			<input class="login__input" type="password" id="password" name="password" v-model='password'>
 			<button class="login__button" type="submit">login</button>
 		</form>
@@ -18,6 +18,8 @@ import { mapState, mapMutations } from 'vuex'
 import fechadura from '@spurb/fechadura'
 import apiconfig from '../utils/api.config.json'
 
+import tkn from 'js-md5'
+
 export default {
 	name: 'user',
 	data () {
@@ -25,10 +27,13 @@ export default {
 			password: ''
 		}
 	},
+
 	computed: {
 		...mapState(['user']),
 		usr () { return this.$route.query.usr },
-		consulta () { return this.$route.query.consulta }
+		consulta () { return this.$route.query.consulta },
+
+		// tkn () { return tkn('yubathom@gmail.com') } // remover
 	},
 
 	methods: {
@@ -37,7 +42,7 @@ export default {
 			'LOGIN_ERROR'
 		]),
 		checkUser (consulta) {
-			if (!consulta) { this.$router.push('/') }
+			if (!consulta) { this.$router.push('/404') }
 
 			let body = new FormData()
 			body.set('usr', this.usr)
@@ -57,7 +62,7 @@ export default {
 
 		goToEditor (logged, userPath) {
 			if (logged) this.$router.push(userPath)
-			else this.$router.push('/')
+			else this.$router.push('/404')
 		}
 	}
 }

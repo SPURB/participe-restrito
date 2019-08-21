@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/views/Login'
+import Home from '@/views/Home'
 import store from './store.js'
 
 Vue.use(Router)
@@ -9,8 +9,15 @@ const router = new Router({
 	routes: [
 		{
 			path: '/',
-			name: 'login',
-			component: Login
+			name: 'Home',
+			component: Home,
+			children: [
+				{
+					path: 'cadastro',
+					name: 'cadastro',
+					component: () => import(/* webpackChunkName: "cadastro" */ './views/Cadastro.vue')
+				}
+			]
 		},
 		{
 			path: '/user',
@@ -28,11 +35,6 @@ const router = new Router({
 							name: 'Carnaval 2020',
 							component: () => import(/* webpackChunkName: "carnaval2020" */ './views/consultas/Carnaval2020.vue')
 						}
-						// ,{
-						// 	path: 'outra',
-						// 	name: 'Outra',
-						// 	component: () => import(/* webpackChunkName: "outra" */ './views/consultas/Outra.vue'),
-						// }
 					]
 				}
 			]
@@ -40,8 +42,8 @@ const router = new Router({
 
 		{
 			name: '404',
-			path: '*',
-			redirect: '/'
+			path: '/404',
+			component: () => import(/* webpackChunkName: "404" */ './views/404.vue')
 		}
 	]
 })
@@ -49,7 +51,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
 		if (!store.state.user.logged) {
-			next({ path: '/' })
+			next({ path: '/404' })
 		} else {
 			next()
 		}

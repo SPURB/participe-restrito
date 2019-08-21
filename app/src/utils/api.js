@@ -3,7 +3,7 @@ import apiconfig from '../utils/api.config.json'
 
 export default axios.create({
 	baseURL: apiconfig.login,
-	timeout: 5000,
+	timeout: 10000,
 	headers: {
 		'Content-Type': 'multipart/form-data'
 	}

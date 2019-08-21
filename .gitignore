@@ -1,3 +1,5 @@
 *.properties
 api.config.json
 node_modules
+
+api/data/percursos.json
