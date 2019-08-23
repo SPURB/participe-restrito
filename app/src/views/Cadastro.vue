@@ -15,7 +15,7 @@
 
 			<label class="login__label" for="email">Email</label>
 			<input
-				@blur="checkForm"
+				@keydown="checkForm"
 				id="email"
 				class="login__input"
 				name="email"
@@ -39,7 +39,9 @@
 
 		<code>
 			para desenvolvimento:
-			<router-link to="/user/?usr=yubathom@gmail.com&consulta=carnaval2020">user/</router-link>
+			<router-link to="/user/?usr=foo@bar.com&consulta=carnaval2020">user/signin (pass:f3ada405ce890b6f8204094deb12d8a8)</router-link>
+			</n>
+			<router-link to="/user/foo@bar.com/carnaval2020">user/logged</router-link>
 		</code>
 	</div>
 </template>
@@ -49,8 +51,9 @@ import { mapState } from 'vuex'
 import apiEmail from '../utils/api.email'
 import apiconfig from '../utils/api.config.json'
 import tkn from 'js-md5'
-
 import LoginError from '@/components/LoginError'
+
+
 
 export default {
 	$_veeValidate: {
@@ -94,7 +97,7 @@ export default {
 			let emailMessage = new URLSearchParams({
 				Assunto: 'Carnaval 2020! Cadastre seu bloco!',
 				Mensagem: `
-					<h2>Olá ${this.nome}!</h2>
+					<h2>Olá ${this.name}!</h2>
 					<p>Finalize o cadastro do seu bloco na url abaixo:</p>
 					<a href="${this.userUrl}">Cadastre seu Bloco para o carnaval 2020!</a>
 					<p>A sua chave de acesso é:</p>

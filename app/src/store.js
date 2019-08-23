@@ -9,6 +9,9 @@ export default new Vuex.Store({
 			logged: process.env.NODE_ENV !== 'production', // true just for development. Go to http://localhost:8080/#/user/foo@bar.com/carnaval2020
 			error: false,
 			message: ''
+		},
+		form: {
+			active: false
 		}
 	},
 
@@ -22,6 +25,7 @@ export default new Vuex.Store({
 			state.user.error = true
 			state.user.logged = false
 			state.user.message = error
-		}
+		},
+		FORM_STATUS: (state, status) => { state.form.active = status }
 	}
 })
