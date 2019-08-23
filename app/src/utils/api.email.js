@@ -1,16 +1,11 @@
+import axios from 'axios'
 import apiconfig from '../utils/api.config.json'
 
 export default axios.create({
-	url: apiconfig.email.url,
-	timeout: 11000,
+	baseURL: apiconfig.email.url,
 	headers: {
-		'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+		'Access-Control-Allow-Credentials': true,
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Authorization': apiconfig.email.hash
 	}
 })
-
-
-    // url: "https://someurl.com",
-    // username: 'm$',
-    // password: 'stinks',
-    // workstation: 'choose.something',
-    // domain: ''

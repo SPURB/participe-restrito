@@ -18,8 +18,6 @@ import { mapState, mapMutations } from 'vuex'
 import fechadura from '@spurb/fechadura'
 import apiconfig from '../utils/api.config.json'
 
-import tkn from 'js-md5'
-
 export default {
 	name: 'user',
 	data () {
@@ -31,9 +29,7 @@ export default {
 	computed: {
 		...mapState(['user']),
 		usr () { return this.$route.query.usr },
-		consulta () { return this.$route.query.consulta },
-
-		// tkn () { return tkn('yubathom@gmail.com') } // remover
+		consulta () { return this.$route.query.consulta }
 	},
 
 	methods: {

@@ -1,79 +1,112 @@
 <template>
 	<div class="cadastro">
 		<form v-if="!enviandoEmail" class="login__form" action="login" @submit.prevent="cadastro(consulta)">
-			<label class="login__label" for="nome">Nome</label>
-			<input class="login__input" type="nome" id="nome" name="nome" v-model='nome'>
+			<label class="login__label" for="name">Nome do responsável</label>
+			<input
+				@focus="checkForm"
+				id="name"
+				class="login__input"
+				type="text"
+				name="name"
+				v-validate="'required: true'"
+				:class="{ inputErro: errors.has('name') }"
+				v-model='name'
+			>
 
 			<label class="login__label" for="email">Email</label>
-			<input class="login__input" type="email" id="email" name="email" v-model='email'>
-
-			<label class="login__label" for="desfile">Nome do Bloco</label>
-			<input calss="login__input" type="text" id="desfile" name="desfile" v-model='desfile'>
-			<label class="login__label" for="cep">CEP do ponto de partida</label>
-			<input calss="login__input" type="text" id="cep" name="cep" v-model='cep'>
-			<button class="login__button" type="submit">Cadastrar</button>
+			<input
+				@focus="checkForm"
+				id="email"
+				class="login__input"
+				name="email"
+				v-validate="'required|email'"
+				:class="{ inputErro: errors.has('email') }"
+				type="email"
+				v-model='email'
+			>
+			<button class="login__button" type="submit" :disabled='btnDisabled'>Cadastrar</button>
 		</form>
+
 		<p v-else>Enviando email para {{email}}</p>
-		<p>
+
+		<ul class="errors">
+			<li v-for="(error, index) in errors.items" :key="index">{{ error.msg }}</li>
+		</ul>
+
 		<p class="login__status" v-if="user.message !== ''">{{user.message}}</p>
 
-		<code>
+		<!-- <code>
 			para desenvolvimento:
 			<router-link to="/user/?usr=yubathom@gmail.com&consulta=carnaval2020">user/</router-link>
-		</code>
+		</code> -->
 	</div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
+import apiEmail from '../utils/api.email'
 import apiconfig from '../utils/api.config.json'
-import axios from 'axios'
+import tkn from 'js-md5'
+import { mapFields } from 'vee-validate'
 
 export default {
+	$_veeValidate: {
+		validator: 'new' // instância de validator isolado neste componente
+	},
 	name: 'cadastro',
 	data () {
 		return {
-			nome: '',
+			name: '',
 			email: '',
-			desfile: '',
-			cep: '',
-			enviandoEmail: false
+			enviandoEmail: false,
+			btnDisabled: true
 		}
 	},
 	computed: {
 		...mapState(['user']),
-
 		consulta () { return this.$route.query.consulta },
 		showForm () {
 			if (this.consulta && !this.enviandoEmail) return true
 			else return false
+		},
+		userUrl () {
+			return `${apiconfig.appUrl}/#/user/?usr=${this.email}&consulta=${this.consulta}&desfile=${this.desfile}`
 		}
 	},
 	methods: {
+		checkForm (event) {
+			console.log(this.fields) // habilitar / desabilitar botão
+		},
 		cadastro (consulta) {
 			if (!consulta) { this.$router.push('/404') }
 
-			this.enviandoEmail = true
-			
-			axios.post('http://servicos.spurbanismo.sp.gov.br/mail/api/send', {
-				headers: {
-					'Content-type': 'application/x-www-form-urlencoded',
-					'Authorization': 'NTLM =token'
-				},
-				withCredentials: true,
-				data: {
-					'Cc': '',
-					'Cco': '',
-					'Assunto': 'Teste',
-					'Mensagem': `<p>Contém Tags <b>HTML</b></p>`,
-					'Para': 'tlyuba@spurbanismo.sp.gov.br'
-				},
+			let emailMessage = new URLSearchParams({
+				Assunto: 'Carnaval 2020! Cadastre seu bloco!',
+				Mensagem: `
+					<h2>Olá ${this.nome}!</h2>
+					<p>Finalize o cadastro do seu bloco na url abaixo:</p>
+					<a href="${this.userUrl}">Cadastre seu Bloco para o carnaval 2020!</a>
+					<p>A sua chave de acesso é:</p>
+					<h3>${tkn(this.email)}</h3>
+					<img src="https://participe.gestaourbana.prefeitura.sp.gov.br/arquivos/img/PMSP_horizontal_cor_pos.png" width="283" height="97" alt="Prefeitura de São Paulo">
+					`,
+				Para: this.email
 			})
-				.then(res => console.log(res))
-				.catch(err => console.error(err)) 
-				.finally(() => this.enviandoEmail = false)
 
+			const mail = emailMessage.toString()
+
+			this.enviandoEmail = true
+
+			apiEmail.post('/mail/api/send', mail)
+				.then(res => { 
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+				.finally(() => { this.enviandoEmail = false })
 		},
+
 		goToEditor (logged, userPath) {
 			if (logged) this.$router.push(userPath)
 			else if (this.consulta) this.$router.push(`/?consulta=${this.consulta}`)
