@@ -1,7 +1,7 @@
 <template>
 	<div class="user login">
 		<form class="login__form" action="login" @submit.prevent="checkUser(consulta)" v-if='!user.logged'>
-			<label class="login__label" for="password">Inclua a sua chave</label>
+			<label class="login__label" for="password">Insira abaixo a chave recebida no seu e-mail.</label>
 			<input class="login__input" type="password" id="password" name="password" v-model='password'>
 			<button class="login__button" type="submit">login</button>
 		</form>

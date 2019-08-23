@@ -3,7 +3,7 @@
 		<form v-if="!enviandoEmail" class="login__form" action="login" @submit.prevent="cadastro(consulta)">
 			<label class="login__label" for="name">Nome do responsável</label>
 			<input
-				@focus="checkForm"
+				@blur="checkForm"
 				id="name"
 				class="login__input"
 				type="text"
@@ -15,7 +15,7 @@
 
 			<label class="login__label" for="email">Email</label>
 			<input
-				@focus="checkForm"
+				@blur="checkForm"
 				id="email"
 				class="login__input"
 				name="email"
@@ -33,12 +33,14 @@
 			<li v-for="(error, index) in errors.items" :key="index">{{ error.msg }}</li>
 		</ul>
 
+		<LoginError :log="createUserError.log" v-if="createUserError.status"></LoginError>
+
 		<p class="login__status" v-if="user.message !== ''">{{user.message}}</p>
 
-		<!-- <code>
+		<code>
 			para desenvolvimento:
 			<router-link to="/user/?usr=yubathom@gmail.com&consulta=carnaval2020">user/</router-link>
-		</code> -->
+		</code>
 	</div>
 </template>
 
@@ -47,7 +49,8 @@ import { mapState } from 'vuex'
 import apiEmail from '../utils/api.email'
 import apiconfig from '../utils/api.config.json'
 import tkn from 'js-md5'
-import { mapFields } from 'vee-validate'
+
+import LoginError from '@/components/LoginError'
 
 export default {
 	$_veeValidate: {
@@ -58,9 +61,16 @@ export default {
 		return {
 			name: '',
 			email: '',
+			createUserError: {
+				status: false,
+				log: ''
+			},
 			enviandoEmail: false,
 			btnDisabled: true
 		}
+	},
+	components: {
+		LoginError
 	},
 	computed: {
 		...mapState(['user']),
@@ -70,12 +80,13 @@ export default {
 			else return false
 		},
 		userUrl () {
-			return `${apiconfig.appUrl}/#/user/?usr=${this.email}&consulta=${this.consulta}&desfile=${this.desfile}`
+			return `${apiconfig.appUrl}/#/user/?usr=${this.email}&consulta=${this.consulta}&tkn=${tkn(this.name)}`
 		}
 	},
 	methods: {
-		checkForm (event) {
-			console.log(this.fields) // habilitar / desabilitar botão
+		checkForm () {
+			const errorSum = this.fields.email.valid + this.fields.name.valid // true + true === 2
+			if (errorSum === 2) { this.btnDisabled = false } else this.btnDisabled = true
 		},
 		cadastro (consulta) {
 			if (!consulta) { this.$router.push('/404') }
@@ -98,11 +109,13 @@ export default {
 			this.enviandoEmail = true
 
 			apiEmail.post('/mail/api/send', mail)
-				.then(res => { 
-					console.log(res)
+				.then(res => {
+					this.createUserError.status = false
+					this.createUserError.log = ''
 				})
 				.catch(err => {
-					console.log(err)
+					this.createUserError.status = true
+					this.createUserError.log = err
 				})
 				.finally(() => { this.enviandoEmail = false })
 		},

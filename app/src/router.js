@@ -26,8 +26,8 @@ const router = new Router({
 			children: [
 				{
 					path: ':email',
-					name: 'userEmail',
-					component: () => import(/* webpackChunkName: "UserEmail" */ './views/UserEmail.vue'),
+					name: 'userLogged',
+					component: () => import(/* webpackChunkName: "userLogged" */ './views/userLogged.vue'),
 					meta: { requiresAuth: true },
 					children: [
 						{

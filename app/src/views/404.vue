@@ -2,16 +2,24 @@
 	<div class="user-forbidden">
 		<p>404</p>
 		<p v-if="user.message !=''">{{user.message}}</p>
-		<button @click.prevent="goBack">Tentar novamente</button>
+		<button class="user-forbidden__button" @click.prevent="goBack">Tentar novamente</button>
+
+		<LoginError :log="error"></LoginError>
+
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex'
+import LoginError from '@/components/LoginError'
 
 export default {
 	name: 'UserForbidden',
+	components: {
+		LoginError
+	},
 	computed: {
-		...mapState(['user'])
+		...mapState(['user']),
+		error () { return new Error('404') }
 	},
 	methods: {
 		goBack () { this.$router.go(-1) }
@@ -25,5 +33,8 @@ export default {
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
+	}
+	.user-forbidden__button {
+		margin-bottom: 2rem
 	}
 </style>
