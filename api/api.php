@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Current");
 header('Access-Control-Allow-Credentials: false');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
 header("Content-type: application/json");
 
 define('APP_PATH', realpath(dirname(__FILE__)));

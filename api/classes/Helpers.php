@@ -20,8 +20,6 @@ class Helpers {
 		$id = $featureObject->properties->id;
 		$name =	$featureObject->properties->Name;
 
-		// if($id) return;
-
 		unset($featureObject->properties);
 
 		$result = new stdClass();
