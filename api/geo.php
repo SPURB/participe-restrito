@@ -4,7 +4,6 @@ Headers::generate();
 Headers::setAppPath(); // define 'APP_PATH'
 
 require_once 'classes/Base.php';
-require_once 'classes/Blocos.php';
 require_once 'classes/Percursos.php';
 
 function getResponse($params) {
@@ -15,7 +14,6 @@ function getResponse($params) {
 	}
 
 	switch($geoType){
-		case 'blocos': return Blocos::getAll(); break; // "/?geo=blocos"
 		case 'percursos': return Percursos::getAll(); break; // "/?geo=percuros"
 		default: return Base::defaultResponse(); // "/" ou parâmetros infinidos
 	}

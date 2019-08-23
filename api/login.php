@@ -1,6 +1,6 @@
 <?php
 require_once 'classes/Headers.php';
-require_once 'classes/APIKey.php';
+require_once 'classes/api/APIKey.php';
 
 Headers::generate();
 Headers::setAppPath();
