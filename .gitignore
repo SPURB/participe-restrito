@@ -1,3 +1,4 @@
 *.properties
+*.logs
 api.config.json
 node_modules
