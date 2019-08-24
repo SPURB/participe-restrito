@@ -53,8 +53,6 @@ import apiconfig from '../utils/api.config.json'
 import tkn from 'js-md5'
 import LoginError from '@/components/LoginError'
 
-
-
 export default {
 	$_veeValidate: {
 		validator: 'new' // instância de validator isolado neste componente

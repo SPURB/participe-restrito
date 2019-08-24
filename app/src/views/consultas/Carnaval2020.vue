@@ -19,14 +19,14 @@ export default {
 		return {
 			create: process.env.NODE_ENV !== 'production',
 			update: {
-				status: false, 
+				status: false,
 				id: 0
 			},
-			formFields: {},
+			formFields: {}
 
 		}
 	},
-	components:{
+	components: {
 		FormUpdate,
 		FormCreate
 	},
@@ -34,8 +34,7 @@ export default {
 		'$route' (to, from) {
 			if (to.query.id) {
 				this.getBloco(to.query.id)
-			}
-			else if (to.query.id === 0) this.criarNovoBloco()
+			} else if (to.query.id === 0) this.criarNovoBloco()
 		}
 	},
 	methods: {

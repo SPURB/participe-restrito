@@ -111,27 +111,24 @@
 						v-model="desfile.bairro_dispersao"
 					> -->
 
-
 					<!-- ******************* -->
 					<!-- ***** datas ******* -->
 					<!-- ******************* -->
-					 <label for="data_do_desfile_2019">Data (2019)</label>
-					 <input 
-					 	id="data_do_desfile_2019"
+					<label for="data_do_desfile_2019">Data (2019)</label>
+					<input
+						id="data_do_desfile_2019"
 						type="date"
 						v-validate="'required:false'"
 						v-model="desfile.data_do_desfile_2019"
 					/>
 
-					 <label for="data_do_desfile_2020">Data (2020)</label>
-					 <input 
-					 	id="data_do_desfile_2020"
+					<label for="data_do_desfile_2020">Data (2020)</label>
+					<input
+						id="data_do_desfile_2020"
 						type="date"
 						v-validate="'required:true'"
 						v-model="desfile.data_do_desfile_2020"
-					/> 
-
-					
+					/>
 
 				</section>
 
@@ -146,7 +143,7 @@
 						:class="{ erro: errors.has('nome_responsavel') }"
 						v-model="contato.nome_responsavel"
 					>
-		
+
 					<label for="cpf_cnpj_responsavel">CPF/CNPJ</label>
 					<input
 						id="cpf_cnpj_responsavel"
@@ -161,7 +158,7 @@
 					<input
 						id="email_responsavel"
 						name="email_responsavel"
-						v-validate="'required|email'" 
+						v-validate="'required|email'"
 						:class="{ erro: errors.has('email') }"
 						type="email"
 						v-model="contato.email_responsavel"
@@ -171,79 +168,76 @@
 					<input
 						id="telefone_responsavel"
 						name="telefone_responsavel"
-						v-validate="'required|email'" 
+						v-validate="'required|email'"
 						:class="{ erro: errors.has('telefone_responsavel') }"
 						type="text"
 						v-model="contato.telefone_responsavel"
 					>
 
 					<!-- co-responsável -->
-					<a href="" @click.prevent="displayToggle('showCorresponsavel')">
+					<!-- <a href="" @click.prevent="displayToggle('showCorresponsavel')">
 						<span v-if="!ui.showCorresponsavel">Incluir co-responsável</span>
 						<span v-if="ui.showCorresponsavel" @click.prevent="resetSection('coResponsavel')">Remover co-responsável</span>
-					</a>
+					</a> -->
 
-					<template v-if="ui.showCorresponsavel">
-						<h3>Co-responsável</h3>
-						<label for="name">Nome</label>
-						<input
-							id="nome_coresponsavel"
-							type="text"
-							name="nome_coresponsavel"
-							v-validate="'required: false'"
-							:class="{ erro: errors.has('nome_coresponsavel') }"
-							v-model="contato.nome_coresponsavel"
-						>
-			
-						<label for="cpf_cnpj_coresponsavel">CPF/CNPJ</label>
-						<input
-							id="cpf_cnpj_coresponsavel"
-							type="text"
-							name="cpf_cnpj_coresponsavel"
-							v-validate="'required: false'"
-							:class="{ erro: errors.has('cpf_cnpj_coresponsavel') }"
-							v-model="contato.cpf_cnpj_coresponsavel"
-						>
+					<h3>Co-responsável</h3>
+					<label for="name">Nome</label>
+					<input
+						id="nome_coresponsavel"
+						type="text"
+						name="nome_coresponsavel"
+						v-validate="'required: false'"
+						:class="{ erro: errors.has('nome_coresponsavel') }"
+						v-model="contato.nome_coresponsavel"
+					>
 
-						<label for="email_coresponsavel">Email</label>
-						<input
-							id="email_coresponsavel"
-							name="email_coresponsavel"
-							v-validate="'required: false'" 
-							:class="{ erro: errors.has('email_coresponsavel') }"
-							type="email"
-							v-model="contato.email_coresponsavel"
-						>
+					<label for="cpf_cnpj_coresponsavel">CPF/CNPJ</label>
+					<input
+						id="cpf_cnpj_coresponsavel"
+						type="text"
+						name="cpf_cnpj_coresponsavel"
+						v-validate="'required: false'"
+						:class="{ erro: errors.has('cpf_cnpj_coresponsavel') }"
+						v-model="contato.cpf_cnpj_coresponsavel"
+					>
 
-						<label for="telefone_coresponsavel">Telefone</label>
-						<input
-							id="telefone_coresponsavel"
-							name="telefone_coresponsavel"
-							v-validate="'required: false'" 
-							:class="{ erro: errors.has('telefone_coresponsavel') }"
-							type="text"
-							v-model="contato.telefone_coresponsavel"
-						>
-					</template>
+					<label for="email_coresponsavel">Email</label>
+					<input
+						id="email_coresponsavel"
+						name="email_coresponsavel"
+						v-validate="'required: false'"
+						:class="{ erro: errors.has('email_coresponsavel') }"
+						type="email"
+						v-model="contato.email_coresponsavel"
+					>
+
+					<label for="telefone_coresponsavel">Telefone</label>
+					<input
+						id="telefone_coresponsavel"
+						name="telefone_coresponsavel"
+						v-validate="'required: false'"
+						:class="{ erro: errors.has('telefone_coresponsavel') }"
+						type="text"
+						v-model="contato.telefone_coresponsavel"
+					>
 				</section>
+				<button @click.prevent="criaDesfile">Criar </button>
 			</form>
 
 	</div>
 </template>
+
 <script>
+import axios from 'axios'
+import fechadura from '@spurb/fechadura'
+import apiconfig from '../utils/api.config.json'
+
 export default {
 	$_veeValidate: {
 		validator: 'new' // instância de validator isolado neste componente
 	},
 	name: 'FormCreate',
-	created () {
-		/* 
-		* Preenche campos conhecidos
-		*/
-		this.email_responsavel = this.$route.params.email
-	},
-	
-	data() {
+	data () {
 		return {
 			ui: {
 				showCorresponsavel: false
@@ -261,10 +255,10 @@ export default {
 
 			desfile: {
 				nome_do_bloco: '',
-				//nao se aplicam a este form mas precisa constar no body do post
+				// nao se aplicam a este form mas precisa constar no body do post
 				sentido_ab: 1,
 				mapa_ok: '',
-				//nao se aplicam a este form mas precisa constar no body do post
+				// nao se aplicam a este form mas precisa constar no body do post
 				endereco_concentracao: '',
 				complemento_concentracao: '',
 				cep_concentracao: '',
@@ -276,6 +270,7 @@ export default {
 				// faltou bairro
 				data_do_desfile_2019: '',
 				data_do_desfile_2020: '',
+
 				hr_concentracao: '',
 				hr_desfile: '',
 				hr_encerramento: '',
@@ -312,21 +307,28 @@ export default {
 			}
 		}
 	},
+	created () {
+		/* Pode preencher os campos já conhecidos pela aplicação */
+		this.email_responsavel = this.$route.params.email
+	},
+
 	methods: {
-		update (event) {
-			console.log(event)
+		criaDesfile () {
+			/* VALIDAR ANTES. Esta função cria um contato primeiro. Mas é um exemplo prátio de um POST */
+			const config = {
+				headers: {
+					Current: fechadura(apiconfig.chave, 'bicho').encript,
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.post(apiconfig.base + '/contato/', this.contato, config)
+				.then(res => console.log(res))
+				.catch(err => console.log(err))
+
+			/* fim da criação de um contato. Criar desfile. Use o mesmo `config` */
 		},
 		displayToggle (el) {
 			this.ui[el] = !this.ui[el]
-		},
-		resetSection (section) {
-			switch (section) {
-				case 'coresponsavel':
-					this.contato.nome_coresponsavel= ''
-					this.contato.cpf_cnpj_coresponsavel = ''
-					this.contato.email_coresponsavel = ''
-					this.contato.telefone_coresponsavel = ''
-				}
 		}
 	}
 }

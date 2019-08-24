@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import api from '../utils/api'
+import apiLogin from '../utils/api.login'
 import { mapState, mapMutations } from 'vuex'
 import fechadura from '@spurb/fechadura'
 import apiconfig from '../utils/api.config.json'
@@ -50,7 +50,7 @@ export default {
 				}
 			}
 
-			api.post('/', body, config)
+			apiLogin.post('/', body, config)
 				.then(res => this.LOGIN_STATUS(res.data))
 				.catch(err => this.LOGIN_ERROR(err))
 				.finally(() => this.goToEditor(this.user.logged, `/user/${this.usr}/${this.consulta}`))

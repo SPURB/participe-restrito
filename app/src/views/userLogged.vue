@@ -34,10 +34,6 @@ export default {
 		blocoId () { return this.$route.querys.id }
 	},
 
-	created() {
-		this.FORM_STATUS(true)
-	},
-
 	methods: {
 		...mapMutations(['FORM_STATUS']),
 		fakeFetch (delay) {
@@ -45,6 +41,7 @@ export default {
 				setTimeout(resolve, delay)
 			})
 		},
+
 		listConsultas (email) {
 			this.fetching = true
 			/*
@@ -67,10 +64,11 @@ export default {
 					]
 				})
 				.catch(() => console.error('Err'))
-				.finally(() => this.fetching = false)
+				.finally(() => { this.fetching = false })
 		}
 	},
 	created () {
+		this.FORM_STATUS(true)
 		this.listConsultas(this.userEmail)
 	}
 }

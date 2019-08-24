@@ -36,7 +36,7 @@ export default {
 		}
 	},
 	methods: {
-		update(event) {
+		update (event) {
 			console.log(event)
 		}
 	}
