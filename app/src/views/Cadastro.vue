@@ -40,7 +40,6 @@
 		<code>
 			para desenvolvimento:
 			<router-link to="/user/?usr=foo@bar.com&consulta=carnaval2020">user/signin (pass:f3ada405ce890b6f8204094deb12d8a8)</router-link>
-			</n>
 			<router-link to="/user/foo@bar.com/carnaval2020">user/logged</router-link>
 		</code>
 	</div>
