@@ -1,7 +1,7 @@
 <template>
 	<div class="form--create">
 
-			<form @submit.prevent="criar"> <!-- validação da DOM é assíncrona -->
+			<form @submit.prevent="criar">
 
 				<section ref="desfile">
 					<h3>Desfile</h3>
@@ -11,11 +11,13 @@
 						id="nome_do_bloco"
 						type="text"
 						name="nome_do_bloco"
-						v-validate="'required|min:2'"
+						v-validate="'required|min:3'"
 						:class="{ erro: errors.has('nome_do_bloco') }"
 						v-model="desfile.nome_do_bloco"
 					>
 					<span>{{ errors.first('nome_do_bloco') }}</span>
+					<!-- pode incluir no contexto como neste exemplo ou agrupados em outro lugar (errors, custom_errors)-->
+					<!-- ver documentação de vee-validate 2.x http://vee-validate.logaretm.com/v2/ (não é o 3.x) -->
 
 					<!-- concentração -->
 					<label for="endereco_concentracao">Endereço da concentração (até 100 caracteres)</label>
@@ -24,7 +26,7 @@
 						id="endereco_concentracao"
 						type="text"
 						name="endereco_concentracao"
-						v-validate="'required|between:3,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('endereco_concentracao') }"
 						v-model="desfile.endereco_concentracao"
 					>
@@ -35,7 +37,7 @@
 						id="complemento_concentracao"
 						type="text"
 						name="complemento_concentracao"
-						v-validate="'required|between:1,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('complemento_concentracao') }"
 						v-model="desfile.complemento_concentracao"
 					>
@@ -46,7 +48,7 @@
 						id="cep_concentracao"
 						type="text"
 						name="cep_concentracao"
-						v-validate="'required|between:3,20'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('cep_concentracao') }"
 						v-model="desfile.cep_concentracao"
 					>
@@ -58,7 +60,7 @@
 						id="bairro_concentracao"
 						type="text"
 						name="bairro_concentracao"
-						v-validate="'required|between:3,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('bairro_concentracao') }"
 						v-model="desfile.bairro_concentracao"
 					>
@@ -69,7 +71,7 @@
 						id="itinerario"
 						type="text"
 						name="itinerario"
-						v-validate="'required|between:3,1000'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('itinerario') }"
 						v-model="desfile.itinerario"
 					></textarea>
@@ -81,7 +83,7 @@
 						id="endereco_dispersao"
 						type="text"
 						name="endereco_dispersao"
-						v-validate="'required|between:3,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('endereco_dispersao') }"
 						v-model="desfile.endereco_dispersao"
 					>
@@ -92,7 +94,7 @@
 						id="complemento_dispersao"
 						type="text"
 						name="complemento_dispersao"
-						v-validate="'required|between:3,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('complemento_dispersao') }"
 						v-model="desfile.complemento_dispersao"
 					>
@@ -103,7 +105,7 @@
 						id="cep_dispersao"
 						type="text"
 						name="cep_dispersao"
-						v-validate="'required|between:3,100'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('cep_dispersao') }"
 						v-model="desfile.cep_dispersao"
 					>
@@ -191,25 +193,25 @@
 						v-validate="'required'"
 						@change="setOption('desfile','hr_concentracao', $event)">
 							<option value="" disabled selected>Selecione um horário</option>
-							<option value="00:08:00">8h</option>
-							<option value="00:08:30">8h30</option>
-							<option value="00:09:00">9h</option>
-							<option value="00:09:30">9h30</option>
-							<option value="00:10:00">10h</option>
-							<option value="00:10:30">10h30</option>
-							<option value="00:11:00">11h</option>
-							<option value="00:11:30">11h30</option>
-							<option value="00:12:00">12h</option>
-							<option value="00:12:30">12h30</option>
-							<option value="00:13:00">13h</option>
-							<option value="00:13:30">13h30</option>
-							<option value="00:14:00">14h</option>
-							<option value="00:14:30">14h30</option>
-							<option value="00:15:00">15h</option>
-							<option value="00:15:30">15h30</option>
-							<option value="00:16:00">16h</option>
-							<option value="00:16:30">16h30</option>
-							<option value="00:17:00">17h</option>
+							<option value="08:00">8h</option>
+							<option value="08:30">8h30</option>
+							<option value="09:00">9h</option>
+							<option value="09:30">9h30</option>
+							<option value="10:00">10h</option>
+							<option value="10:30">10h30</option>
+							<option value="11:00">11h</option>
+							<option value="11:30">11h30</option>
+							<option value="12:00">12h</option>
+							<option value="12:30">12h30</option>
+							<option value="13:00">13h</option>
+							<option value="13:30">13h30</option>
+							<option value="14:00">14h</option>
+							<option value="14:30">14h30</option>
+							<option value="15:00">15h</option>
+							<option value="15:30">15h30</option>
+							<option value="16:00">16h</option>
+							<option value="16:30">16h30</option>
+							<option value="17:00">17h</option>
 					</select>
 					<!-- FIM Horário da concentração -->
 
@@ -223,25 +225,25 @@
 						v-validate="'required'"
 						@change="setOption('desfile','hr_desfile', $event)">
 							<option value="" disabled selected>Selecione um horário</option>
-							<option value="00:08:00">8h</option>
-							<option value="00:08:30">8h30</option>
-							<option value="00:09:00">9h</option>
-							<option value="00:09:30">9h30</option>
-							<option value="00:10:00">10h</option>
-							<option value="00:10:30">10h30</option>
-							<option value="00:11:00">11h</option>
-							<option value="00:11:30">11h30</option>
-							<option value="00:12:00">12h</option>
-							<option value="00:12:30">12h30</option>
-							<option value="00:13:00">13h</option>
-							<option value="00:13:30">13h30</option>
-							<option value="00:14:00">14h</option>
-							<option value="00:14:30">14h30</option>
-							<option value="00:15:00">15h</option>
-							<option value="00:15:30">15h30</option>
-							<option value="00:16:00">16h</option>
-							<option value="00:16:30">16h30</option>
-							<option value="00:17:00">17h</option>
+							<option value="08:00">8h</option>
+							<option value="08:30">8h30</option>
+							<option value="09:00">9h</option>
+							<option value="09:30">9h30</option>
+							<option value="10:00">10h</option>
+							<option value="10:30">10h30</option>
+							<option value="11:00">11h</option>
+							<option value="11:30">11h30</option>
+							<option value="12:00">12h</option>
+							<option value="12:30">12h30</option>
+							<option value="13:00">13h</option>
+							<option value="13:30">13h30</option>
+							<option value="14:00">14h</option>
+							<option value="14:30">14h30</option>
+							<option value="15:00">15h</option>
+							<option value="15:30">15h30</option>
+							<option value="16:00">16h</option>
+							<option value="16:30">16h30</option>
+							<option value="17:00">17h</option>
 					</select>
 					<!-- FIM Horário da desfile -->
 
@@ -255,35 +257,35 @@
 						v-validate="'required'"
 						@change="setOption('desfile','hr_encerramento', $event)">
 							<option value="" disabled selected>Selecione um horário</option>
-							<option value="00:08:00">8h</option>
-							<option value="00:08:30">8h30</option>
-							<option value="00:09:00">9h</option>
-							<option value="00:09:30">9h30</option>
-							<option value="00:10:00">10h</option>
-							<option value="00:10:30">10h30</option>
-							<option value="00:11:00">11h</option>
-							<option value="00:11:30">11h30</option>
-							<option value="00:12:00">12h</option>
-							<option value="00:12:30">12h30</option>
-							<option value="00:13:00">13h</option>
-							<option value="00:13:30">13h30</option>
-							<option value="00:14:00">14h</option>
-							<option value="00:14:30">14h30</option>
-							<option value="00:15:00">15h</option>
-							<option value="00:15:30">15h30</option>
-							<option value="00:16:00">16h</option>
-							<option value="00:16:30">16h30</option>
-							<option value="00:17:00">17h</option>
-							<option value="00:17:00">17h30</option>
-							<option value="00:18:00">18h</option>
-							<option value="00:18:00">18h30</option>
-							<option value="00:19:00">19h*</option>
-							<option value="00:19:00">19h30*</option>
-							<option value="00:20:00">20h*</option>
-							<option value="00:20:00">20h30*</option>
-							<option value="00:21:00">21h*</option>
-							<option value="00:21:00">21h30*</option>
-							<option value="00:22:00">22h*</option>
+							<option value="08:00">8h</option>
+							<option value="08:30">8h30</option>
+							<option value="09:00">9h</option>
+							<option value="09:30">9h30</option>
+							<option value="10:00">10h</option>
+							<option value="10:30">10h30</option>
+							<option value="11:00">11h</option>
+							<option value="11:30">11h30</option>
+							<option value="12:00">12h</option>
+							<option value="12:30">12h30</option>
+							<option value="13:00">13h</option>
+							<option value="13:30">13h30</option>
+							<option value="14:00">14h</option>
+							<option value="14:30">14h30</option>
+							<option value="15:00">15h</option>
+							<option value="15:30">15h30</option>
+							<option value="16:00">16h</option>
+							<option value="16:30">16h30</option>
+							<option value="17:00">17h</option>
+							<option value="17:00">17h30</option>
+							<option value="18:00">18h</option>
+							<option value="18:00">18h30</option>
+							<option value="19:00">19h*</option>
+							<option value="19:00">19h30*</option>
+							<option value="20:00">20h*</option>
+							<option value="20:00">20h30*</option>
+							<option value="21:00">21h*</option>
+							<option value="21:00">21h30*</option>
+							<option value="22:00">22h*</option>
 					</select>
 					<!-- FIM Horário da encerramento -->
 					<p>*Conforme Guia de Regras, o som deverá ser desligado até 19h e as vias liberadas para trânsito até 20h.</p>
@@ -408,7 +410,7 @@
 					<input
 						id="telefone_responsavel"
 						name="telefone_responsavel"
-						v-validate="'required|email'"
+						v-validate="'required'"
 						:class="{ erro: errors.has('telefone_responsavel') }"
 						type="text"
 						v-model="contato.telefone_responsavel"
@@ -461,17 +463,18 @@
 					<!-- ano_fundacao -->
 					<label for="ano_fundacao">Ano Fundação</label>
 					<input
+						placeholder="1900"
 						id="ano_fundacao"
 						v-validate="'required'"
 						:class="{ erro: errors.has('ano_fundacao') }"
-						type="date"
+						type="number"
 						name="ano_fundacao"
 						v-model="desfile.ano_fundacao"
 					/>
 					<!-- FIM ano_fundacao -->
 
 					<!-- perfil_bloco SET CUSTOM ERROR -->
-					<div ref="_check-errors__perfil_bloco"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('perfil_bloco') }"
 					>
 						<h5>Perfil do bloco</h5>
@@ -499,7 +502,7 @@
 					<!-- FIM perfil_bloco -->
 
 					<!-- estilo_musical_predominante SET CUSTOM ERROR-->
-					<div ref="_check-errors__estilo_musical_predominante"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('estilo_musical_predominante') }">
 						<h5>Estilo musical predominante</h5>
 						<ul>
@@ -525,7 +528,7 @@
 					<!-- FIM estilo_musical_predominante -->
 
 					<!-- bloco_comunitario SET CUSTOM ERROR -->
-					<div ref="_check-errors__bloco_comunitario"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('bloco_comunitario') }">
 						<h5>Bloco comunitário?</h5>
 						<ul>
@@ -536,7 +539,7 @@
 					<!-- FIM bloco_comunitario -->
 
 					<!-- artistas SET CUSTOM ERROR -->
-					<div ref="_check-errors__artistas"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('artistas') }">
 						<h5>Possui artistas?</h5>
 						<ul>
@@ -555,7 +558,7 @@
 					<!-- FIM artistas -->
 
 					<!-- bateria SET CUSTOM ERROR -->
-					<div ref="_check-errors__bateria"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('bateria') }">
 						<h5>Possui bateria?</h5>
 						<ul>
@@ -574,7 +577,7 @@
 					<!-- FIM bateria -->
 
 					<!-- banda_em_trio_ou_solo SET CUSTOM ERROR -->
-					<div ref="_check-errors__banda_em_trio_ou_solo"
+					<div class="check-errors"
 						:class="{ erro: custom_errors.has('banda_em_trio_ou_solo') }">
 						<h5>Possui banda em trio ou solo?</h5>
 						<ul>
@@ -600,7 +603,6 @@
 								type="radio"
 								v-model="desfile.banda_em_trio_ou_solo"
 								value="Não"
-								id="nao"
 								name="nao"
 								><label for="nao">Não</label></li>
 						</ul>
@@ -613,34 +615,268 @@
 				<section ref="operacao">
 					<h3>Operação</h3>
 
-					<!-- trio_eletrico -->
+					<!-- trio_eletrico SET CUSTOM ERROR-->
+					<div class="check-errors"
+						:class="{ erro: custom_errors.has('trio_eletrico') }">
+						<h5>Possui trio eletétrico?</h5>
+						<ul>
+							<li>
+								<input
+									type="radio"
+									@change="setOption('desfile', 'trio_eletrico', $event)"
+									value="opcional"
+									><label for="opcional">Sim</label>
+								<label
+									v-if="ui.opcional.trio_eletrico"
+									for="trio_eletrico--opcional"> Dimensões largura x comprimento x altura (em metros)</label>
+								<input
+									placeholder="Descreva"
+									v-if="ui.opcional.trio_eletrico"
+									name="trio_eletrico--opcional"
+									id="trio_eletrico--opcional"
+									v-model="desfile.trio_eletrico">
+							</li>
+							<li><input
+								type="radio"
+								v-model="desfile.trio_eletrico"
+								value="Não"
+								name="nao"
+								><label for="nao">Não</label>
+							</li>
+						</ul>
+						<p>Consulte dimensões e autorizações especiais conforme Guia de Regras e legislação vigente.</p>
+					</div>
 					<!-- FIM trio_eletrico -->
 
 					<!-- n_brigadistas -->
+					<label for="n_brigadistas">Número de brigadistas*</label>
+					<input
+						placeholder="15"
+						id="n_brigadistas"
+						name="n_brigadistas"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_brigadistas') }"
+						type="number"
+						v-model.number="desfile.n_brigadistas">
 					<!-- FIM n_brigadistas -->
 
+					<!-- n_ambulancias -->
+					<label for="n_ambulancias">Número de ambulâncias*</label>
+					<input
+						placeholder="15"
+						id="n_ambulancias"
+						name="n_ambulancias"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_ambulancias') }"
+						type="number"
+						v-model.number="desfile.n_ambulancias">
+					<!-- FIM n_ambulancias -->
+
 					<!-- n_cordeiros -->
+					<label for="n_cordeiros">Número de cordeiros*</label>
+					<input
+						placeholder="15"
+						id="n_cordeiros"
+						name="n_cordeiros"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_cordeiros') }"
+						type="number"
+						v-model.number="desfile.n_cordeiros">
 					<!-- FIM n_cordeiros -->
 
 					<!-- n_segurancas_habilitados -->
+					<label for="n_segurancas_habilitados">Número de seguranças habilitados*</label>
+					<input
+						placeholder="15"
+						id="n_segurancas_habilitados"
+						name="n_segurancas_habilitados"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_segurancas_habilitados') }"
+						type="number"
+						v-model.number="desfile.n_segurancas_habilitados">
 					<!-- FIM n_segurancas_habilitados -->
 
 					<!-- n_banheiros_quimicos -->
+					<label for="n_banheiros_quimicos">Número de banheiros químicos*</label>
+					<input
+						placeholder="15"
+						id="n_banheiros_quimicos"
+						name="n_banheiros_quimicos"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_banheiros_quimicos') }"
+						type="number"
+						v-model.number="desfile.n_banheiros_quimicos">
 					<!-- FIM n_banheiros_quimicos -->
 
 					<!-- n_catadores_de_residuos -->
+					<label for="n_catadores_de_residuos">Número de catadores de resíduos*</label>
+					<input
+						placeholder="15"
+						id="n_catadores_de_residuos"
+						name="n_catadores_de_residuos"
+						v-validate="'required'"
+						:class="{ erro: errors.has('n_catadores_de_residuos') }"
+						type="number"
+						v-model.number="desfile.n_catadores_de_residuos">
 					<!-- FIM n_catadores_de_residuos -->
 
-					<!-- interesse_cadastrar_ambulantes -->
+					<!-- interesse_cadastrar_ambulantes SET CUSTOM ERROR -->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('interesse_cadastrar_ambulantes') }">
+						<h5>Tem interesse em cadastrar ambulantes do bloco?</h5>
+						<ul>
+							<li><input type="radio" v-model.number="desfile.interesse_cadastrar_ambulantes" value="1"><label for="1">Sim</label></li>
+							<li><input type="radio" v-model.number="desfile.interesse_cadastrar_ambulantes" value="0"><label for="2">Não</label></li>
+						</ul>
+					</div>
 					<!-- FIM interesse_cadastrar_ambulantes -->
 
 					<!-- plano_de_operacao -->
+					<label for="plano_de_operacao">Plano de operação (até 2000 carac.)*</label>
+					<textarea
+						placeholder="Plano da operação em até 2000 caracteres"
+						id="plano_de_operacao"
+						type="text"
+						name="plano_de_operacao"
+						v-validate="'required|max:2000'"
+						:class="{ erro: errors.has('plano_de_operacao') }"
+						v-model="desfile.plano_de_operacao"
+					></textarea>
 					<!-- FIM plano_de_operacao -->
 
 				</section>
 				<!-- FIM operacao -->
 
-				<button @click.prevent="criar">Criar </button>
+				<section ref="comunicacao">
+					<h3>Comunicação</h3>
+
+					<!-- patrocinio SET CUSTOM ERROR -->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('patrocinio') }">
+						<h5>Tem patrocínio com exposição de marcas?</h5>
+						<ul>
+							<li>
+								<input
+									type="radio"
+									@change="setOption('desfile', 'patrocinio', $event)"
+									value="opcional"
+									><label for="opcional">Sim.</label>
+								<label
+									v-if="ui.opcional.patrocinio"
+									for="patrocinio--opcional"> Quais?</label>
+								<input
+									placeholder="Lista de patrocinadores"
+									v-if="ui.opcional.patrocinio"
+									name="patrocinio--opcional"
+									id="patrocinio--opcional"
+									v-model="desfile.patrocinio">
+							</li>
+							<li><input
+								type="radio"
+								v-model="desfile.patrocinio"
+								value="Não"
+								name="nao"
+								><label for="nao">Não</label>
+							</li>
+						</ul>
+					</div>
+					<!-- FIM patrocinio -->
+
+					<!-- apoiadores SET CUSTOM ERROR -->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('apoiadores') }">
+						<h5>Pretende divulgar apoiadores?</h5>
+						<ul>
+							<li>
+								<input
+									type="radio"
+									@change="setOption('desfile', 'apoiadores', $event)"
+									value="opcional"
+									><label for="opcional">Sim.</label>
+								<label
+									v-if="ui.opcional.apoiadores"
+									for="apoiadores--opcional"> Quais?</label>
+								<input
+									placeholder="Lista de patrocinadores"
+									v-if="ui.opcional.patrocinio"
+									name="apoiadores--opcional"
+									id="apoiadores--opcional"
+									v-model="desfile.apoiadores">
+							</li>
+							<li><input
+								type="radio"
+								v-model="desfile.apoiadores"
+								value="Não"
+								name="nao"
+								><label for="nao">Não</label>
+							</li>
+						</ul>
+					</div>
+					<!-- FIM apoiadores -->
+
+					<!-- interesse_contato_empresas SET CUSTOM ERROR-->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('interesse_contato_empresas') }">
+						<h5>Tem interesse em receber contato de empresas/agências interessadas em patrocinar o bloco?*</h5>
+						<ul>
+							<li><input type="radio" v-model.number="desfile.interesse_contato_empresas" value="1"><label for="1">Sim</label></li>
+							<li><input type="radio" v-model.number="desfile.interesse_contato_empresas" value="0"><label for="2">Não</label></li>
+						</ul>
+					</div>
+					<!-- FIM interesse_contato_empresas -->
+
+					<!-- participar_campanhas SET CUSTOM ERROR -->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('participar_campanhas') }">
+						<h5>Aceita participar das campanhas promovidas pela Prefeitura de SP durante o Carnaval?*</h5>
+						<ul>
+							<li><input type="radio" v-model.number="desfile.participar_campanhas" value="1"><label for="1">Sim</label></li>
+							<li><input type="radio" v-model.number="desfile.participar_campanhas" value="0"><label for="2">Não</label></li>
+						</ul>
+					</div>
+					<!-- FIM participar_campanhas -->
+
+					<!-- autoriza_divulgacao SET CUSTOM ERROR -->
+					<div class="custom-errors"
+						:class="{ erro: custom_errors.has('autoriza_divulgacao') }">
+						<h5>Autoriza divulgação?*</h5>
+						<ul>
+							<li><input type="radio" v-model.number="desfile.autoriza_divulgacao" value="1"><label for="1">Sim</label></li>
+							<li><input type="radio" v-model.number="desfile.autoriza_divulgacao" value="0"><label for="2">Não</label></li>
+						</ul>
+					</div>
+					<!-- FIM autoriza_divulgacao -->
+
+					<!-- resenha -->
+					<label for="resenha">Resenha (até 1000 carac.)*</label>
+					<textarea
+						placeholder="ex. O Bloco da Maria é um tradicional bloco do bairro X..."
+						type="text"
+						name="resenha"
+						v-validate="'required'"
+						:class="{ erro: errors.has('resenha') }"
+						v-model="desfile.resenha"
+					></textarea>
+					<!-- FIM resenha -->
+
+				</section>
+				<!-- FIM comunicacao -->
+
+				<section ref="regras">
+					<!-- aceite_das_regras -->
+					<input
+						type="checkbox"
+						id="aceite_das_regras"
+						name="aceite_das_regras"
+						v-validate="'required'"
+						:class="{ erro: errors.has('aceite_das_regras') }"
+						v-model.number="desfile.aceite_das_regras">
+					<label for="aceite_das_regras">Li e concordo com o conteúdo do Guia de Regras 2020.</label>
+					<!-- aceite_das_regras -->
+				</section>
+				<!-- FIM regras -->
+
+				<button @click.prevent="criar">Enviar</button>
 			</form>
 
 	</div>
@@ -656,12 +892,56 @@ import apiconfig from '../utils/api.config.json'
 
 export default {
 	name: 'FormCreate',
+
 	$_veeValidate: {
-		validator: 'new' // instância de validator isolado neste componente
+		validator: 'new'
+	},
+
+	created () {
+		/* Preenche os campos já conhecidos pela aplicação */
+		this.contato.email_responsavel = this.$route.params.email
+
+		/* Cria um único watcher/observable para os "custom_errors" */
+		this.$watch(vm => [
+			vm.desfile['artistas'],
+			vm.desfile['banda_em_trio_ou_solo'],
+			vm.desfile['bateria'],
+			vm.desfile['bloco_comunitario'],
+			vm.desfile['estilo_musical_predominante'],
+			vm.desfile['perfil_bloco'],
+			vm.desfile['trio_eletrico'],
+			vm.desfile['interesse_cadastrar_ambulantes'],
+			vm.desfile['patrocinio'],
+			vm.desfile['apoiadores'],
+			vm.desfile['interesse_contato_empresas'],
+			vm.desfile['participar_campanhas'],
+			vm.desfile['autoriza_divulgacao'],
+		], () => this.customErrorsCheck())
 	},
 	data () {
 		return {
 			custom_errors: new Map(),
+			custom_errors_items: [
+				'artistas',
+				'banda_em_trio_ou_solo',
+				'bateria',
+				'bloco_comunitario',
+				'perfil_bloco',
+				'estilo_musical_predominante',
+				'trio_eletrico',
+				'interesse_cadastrar_ambulantes',
+				'patrocinio',
+				'apoiadores',
+				'interesse_contato_empresas',
+				'participar_campanhas',
+				'autoriza_divulgacao'
+			],
+
+			fetch: {
+				fazendo: false,
+				sucesso: true,
+				mensagem: ''
+			},
 
 			ui: {
 				opcional: {
@@ -670,7 +950,10 @@ export default {
 					estilo_musical_predominante: false,
 					artistas: false,
 					bateria: false,
-					banda_em_trio_ou_solo: false
+					banda_em_trio_ou_solo: false,
+					trio_eletrico: false,
+					patrocinio: false,
+					apoiadores: false
 				}
 			},
 
@@ -686,10 +969,10 @@ export default {
 			},
 
 			desfile: {
-				id: '',
+				// id: '',
 				nome_do_bloco: '',
-				sentido_ab: '1', // nao se aplica a este form mas precisa constar no body do post
-				mapa_ok: '0', // nao se aplica a este form mas precisa constar no body do post
+				sentido_ab: 1, // nao se aplica a este form mas precisa constar no body do post
+				mapa_ok: 0, // nao se aplica a este form mas precisa constar no body do post
 				endereco_concentracao: '',
 				complemento_concentracao: '',
 				cep_concentracao: '',
@@ -698,7 +981,7 @@ export default {
 				endereco_dispersao: '',
 				complemento_dispersao: '',
 				cep_dispersao: '',
-				// faltou bairro
+				// faltou bairro.
 				data_do_desfile_2019: '',
 				data_do_desfile_2020: '',
 				hr_concentracao: '',
@@ -707,21 +990,18 @@ export default {
 				subprefeitura: '',
 				publico_2019: '',
 				publico_estimado: '',
-
-				// caracteristicas
 				ano_fundacao: '',
 				perfil_bloco: '',
 				estilo_musical_predominante: '',
 				bloco_comunitario: '',
 				artistas: '',
 				bateria: '',
-
 				banda_em_trio_ou_solo: '',
 				aceite_das_regras: '',
 				apoiadores: '',
 				autoriza_divulgacao: '',
 				id_contato: '',
-				id_percurso: '',
+				// id_percurso: '', // não incluir para posts
 				interesse_cadastrar_ambulantes: '',
 				interesse_contato_empresas: '',
 				n_ambulancias: '',
@@ -738,27 +1018,15 @@ export default {
 			}
 		}
 	},
-	created () {
-		/* Preenche os campos já conhecidos pela aplicação */
-		this.contato.email_responsavel = this.$route.params.email
-	},
 
 	methods: {
-		customErrors () {
+		customErrorsCheck () {
 			/*
-			* @return aplica classe 'error' em custom errors. Retorna Boolean (verdadeiro se existir erro)
+			* Aplica classe 'error' em custom errors. Retorna Boolean (verdadeiro se existir erro)
 			*/
 			this.custom_errors.clear()
 
-			const customCheck = [
-				'artistas',
-				'banda_em_trio_ou_solo',
-				'bateria',
-				'bloco_comunitario',
-				'perfil_bloco'
-			]
-
-			customCheck
+			this.custom_errors_items
 				.filter(val => this.desfile[val] === '')
 				.forEach(err => this.custom_errors.set(err, 'erro'))
 
@@ -767,22 +1035,11 @@ export default {
 
 		criar () {
 			/*
-			 * 0. Valida
+			 * 0. Validar todos os items
 			 * 1. Cria contato em /contato
 			 * 2. Cria desfile em /desfile com id de contato criado
+			 * 3. Criar feedback para usuário (sucesso/fracasso)
 			*/
-
-			// 0.1. Validacao de custom_errors
-			const isCustomError = this.customErrors()
-
-			// 0.2. Validacao de v-validate
-			this.$validator.validate()
-				.then(valid => {
-					if (!valid || isCustomError) {
-						console.log('not-valid')
-						return true
-					}
-				})
 
 			const config = {
 				headers: {
@@ -791,10 +1048,45 @@ export default {
 				}
 			}
 
-			// 1
-			axios.post(apiconfig.base + '/contato/', this.contato, config)
-				.then(res => console.log(res))
-				.catch(err => console.log(err))
+			// 0.1. Validacao de custom_errors
+			const isCustomError = this.customErrorsCheck()
+
+			// 0.2. Validacao de v-validate
+			this.$validator.validate()
+				.then(valid => {
+					if (!valid || isCustomError) return false
+					else return true
+				})
+				.then(isValid => {
+						if(isValid) {
+							// 1. Cria contato
+							axios.post(apiconfig.base + '/contato/', this.contato, config)
+									.then(res => {
+										return parseInt(res.data)
+									})
+									.then(idContato => {
+										// 2. Cria desfile com id de contato
+										this.desfile.id_contato = idContato
+										axios.post(apiconfig.base + '/desfile/', this.desfile, config)
+											.then(res => {
+												// 3. criar feedback para usuário (defile criado)
+											})
+											.catch(err => {
+												// 3. criar feedback para usuário (contato criado, desfile não foi criado)
+												console.log(err)
+											})
+
+									})
+									.catch(err => {
+										// 3. criar feedback para usuário (contato não foi criado)
+										console.log(err)
+									})
+
+						} else {
+							// 3. criar feedback para usuário (erros no formulário)
+						 }
+				})
+
 		},
 
 		displayToggle (el, type) {
@@ -818,5 +1110,8 @@ export default {
 	display: flex;
 	flex-direction: column;
 	line-height: 2
+}
+.erro{
+	border: solid 3px red
 }
 </style>
