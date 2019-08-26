@@ -1,8 +1,6 @@
 <template>
 	<div class="form--create">
-
 			<form @submit.prevent="criar">
-
 				<section ref="desfile">
 					<h3>Desfile</h3>
 					<label for="nome_do_bloco">Nome do bloco (até 100 caracteres)</label>
@@ -915,7 +913,7 @@ export default {
 			vm.desfile['apoiadores'],
 			vm.desfile['interesse_contato_empresas'],
 			vm.desfile['participar_campanhas'],
-			vm.desfile['autoriza_divulgacao'],
+			vm.desfile['autoriza_divulgacao']
 		], () => this.customErrorsCheck())
 	},
 	data () {
@@ -1058,35 +1056,32 @@ export default {
 					else return true
 				})
 				.then(isValid => {
-						if(isValid) {
-							// 1. Cria contato
-							axios.post(apiconfig.base + '/contato/', this.contato, config)
+					if (isValid) {
+						// 1. Cria contato
+						axios.post(apiconfig.base + '/contato/', this.contato, config)
+							.then(res => {
+								return parseInt(res.data)
+							})
+							.then(idContato => {
+								// 2. Cria desfile com id de contato
+								this.desfile.id_contato = idContato
+								axios.post(apiconfig.base + '/desfile/', this.desfile, config)
 									.then(res => {
-										return parseInt(res.data)
-									})
-									.then(idContato => {
-										// 2. Cria desfile com id de contato
-										this.desfile.id_contato = idContato
-										axios.post(apiconfig.base + '/desfile/', this.desfile, config)
-											.then(res => {
-												// 3. criar feedback para usuário (defile criado)
-											})
-											.catch(err => {
-												// 3. criar feedback para usuário (contato criado, desfile não foi criado)
-												console.log(err)
-											})
-
+										// 3. criar feedback para usuário (defile criado)
 									})
 									.catch(err => {
-										// 3. criar feedback para usuário (contato não foi criado)
+										// 3. criar feedback para usuário (contato criado, desfile não foi criado)
 										console.log(err)
 									})
-
-						} else {
-							// 3. criar feedback para usuário (erros no formulário)
-						 }
+							})
+							.catch(err => {
+								// 3. criar feedback para usuário (contato não foi criado)
+								console.log(err)
+							})
+					} else {
+						// 3. criar feedback para usuário (erros no formulário)
+					}
 				})
-
 		},
 
 		displayToggle (el, type) {

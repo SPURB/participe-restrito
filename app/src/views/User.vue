@@ -5,7 +5,6 @@
 			<input class="login__input" type="password" id="password" name="password" v-model='password'>
 			<button class="login__button" type="submit">login</button>
 		</form>
-
 		<p class="login__status" v-if="user.message !== ''">{{user.message}}</p>
 
 		<router-view></router-view>
@@ -17,6 +16,7 @@ import apiLogin from '../utils/api.login'
 import { mapState, mapMutations } from 'vuex'
 import fechadura from '@spurb/fechadura'
 import apiconfig from '../utils/api.config.json'
+// import tkn from 'js-md5'
 
 export default {
 	name: 'user',
@@ -30,6 +30,7 @@ export default {
 		...mapState(['user']),
 		usr () { return this.$route.query.usr },
 		consulta () { return this.$route.query.consulta }
+		// temp () { return tkn('lofus@mailinator.net') }
 	},
 
 	methods: {
