@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		user: {
-			logged: process.env.NODE_ENV !== 'production', // true just for development. Go to http://localhost:8080/#/user/foo@bar.com/carnaval2020
+			logged: false, // process.env.NODE_ENV !== 'production', // true just for development. Go to http://localhost:8080/#/user/foo@bar.com/carnaval2020
 			error: false,
 			message: ''
 		},

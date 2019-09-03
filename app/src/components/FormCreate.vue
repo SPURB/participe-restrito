@@ -1,6 +1,8 @@
 <template>
 	<div class="form--create">
 
+		<div class="map" id="map"></div>
+
 			<form action="update" @submit.prevent="update">
 
 				<section ref="desfile">
@@ -232,6 +234,14 @@ import axios from 'axios'
 import fechadura from '@spurb/fechadura'
 import apiconfig from '../utils/api.config.json'
 
+import Map from 'ol/Map';
+import Feature from 'ol/Feature.js';
+import View from 'ol/View';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
+import {OSM, Vector as VectorSource} from 'ol/source.js';
+import GeoJSON from 'ol/format/GeoJSON.js';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
+
 export default {
 	$_veeValidate: {
 		validator: 'new' // instância de validator isolado neste componente
@@ -310,6 +320,79 @@ export default {
 	created () {
 		/* Pode preencher os campos já conhecidos pela aplicação */
 		this.email_responsavel = this.$route.params.email
+	},
+
+	mounted () {
+	var styles = {
+			'MultiLineString': new Style({
+			  stroke: new Stroke({
+				color: 'green',
+				width: 10
+			  })
+			})
+		  };
+
+		  var styleFunction = function(feature) {
+			return styles[feature.getGeometry().getType()];
+		  };
+
+		var geoJsonObject = {
+			"properties": {
+				"id": 206,
+				"Name": "House de Rua"
+			},
+			"feature": {
+				"type": "Feature",
+				"geometry": {
+					"type": "MultiLineString",
+					"coordinates": [
+						[
+							[
+								-46.6564909,
+								-23.5294365
+							],
+							[
+								-46.6557318,
+								-23.5287529
+							],
+							[
+								-46.6568771,
+								-23.5277667
+							],
+							[
+								-46.6576388,
+								-23.5284652
+							],
+							[
+								-46.6565276,
+								-23.529446
+							]
+						]
+					]
+				}
+			}
+		}
+		
+		var vectorSource = new VectorSource({
+			features: (new GeoJSON()).readFeatures(geoJsonObject.feature)
+		})
+
+		var map = new Map({
+			layers: [
+			  new TileLayer({
+				source: new OSM()
+			  }),
+			  new VectorLayer({
+				source: vectorSource,
+				style: styleFunction
+			  })
+			],
+			target: 'map',
+			view: new View({
+			  center: [-46.6576388, -23.5284652],
+			  zoom: 2
+			})
+		  });
 	},
 
 	methods: {
