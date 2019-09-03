@@ -1,43 +1,56 @@
 <template>
 	<div class="cadastro">
 		<form v-if="!enviandoEmail" class="login__form" action="login" @submit.prevent="cadastro(consulta)">
-			<label class="login__label" for="name">Nome do responsável</label>
-			<input
-				@blur="checkForm"
-				id="name"
-				class="login__input"
-				type="text"
-				name="name"
-				v-validate="'required: true'"
-				:class="{ inputErro: errors.has('name') }"
-				v-model='name'
-			>
-
-			<label class="login__label" for="email">Email</label>
-			<input
-				@keydown="checkForm"
-				id="email"
-				class="login__input"
-				name="email"
-				v-validate="'required|email'"
-				:class="{ inputErro: errors.has('email') }"
-				type="email"
-				v-model='email'
-			>
-			<button class="login__button" type="submit" :disabled='btnDisabled'>Cadastrar</button>
+			<p v-if="!createUserError.status">Insira seu nome e endereço de e-mail para continuar o cadastro:</p>
+			<fieldset>
+				<input
+					placeholder="Nome"
+					@blur="checkForm"
+					id="name"
+					class="login__input"
+					type="text"
+					name="name"
+					v-validate="'required: true'"
+					:class="{ inputErro: errors.has('name') }"
+					v-model='name'
+				>
+			</fieldset>
+			<fieldset>
+				<input
+					placeholder="E-mail válido"
+					@keyup="checkForm"
+					@blur="checkForm"
+					id="email"
+					class="login__input"
+					name="email"
+					v-validate="'required|email'"
+					:class="{ inputErro: errors.has('email') }"
+					type="email"
+					v-model='email'
+				>
+			</fieldset>
+			<button class="login__button" type="submit" :disabled='btnDisabled'>
+				<i class="icon-seta_direita icon"><span>seta_direita</span></i>
+			</button>
 		</form>
 
-		<p v-else>Enviando email para {{email}}</p>
+		<div v-else class="fetching">
+			<p>Enviando e-mail para <span>{{ email }}</span>...</p>
+			<i class="icon-novamente icon"><span>novamente</span></i>
+		</div>
 
 		<ul class="errors">
-			<li v-for="(error, index) in errors.items" :key="index">{{ error.msg }}</li>
+			<li v-for="(error, index) in errors.items" :key="index">
+				<span>!</span>
+				<div>{{ error.msg }}</div>
+			</li>
 		</ul>
 
 		<LoginError :log="createUserError.log" v-if="createUserError.status"></LoginError>
 
 		<p class="login__status" v-if="user.message !== ''">{{user.message}}</p>
 
-		<div>
+		<div id="dev">
 			<hr>
 			<p>para desenvolvimento:</p>
 			<router-link tag='a' to="/user/?usr=foo@bar.com&consulta=carnaval2020">user/signin</router-link>
@@ -133,8 +146,82 @@ export default {
 	}
 }
 </script>
-<style lang="scss">
-.cadastro{
-	min-width: 50%
+<style lang="scss" scoped>
+@import '../assets/FORM';
+@import '../assets/_variables.scss';
+
+.cadastro {
+	font-family: $grotesca;
+	color: $preto;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	min-height: inherit;
+	text-align: center;
+	form {
+		p {
+			line-height: 1.2;
+			margin: 0 0 2rem;
+		}
+	}
+	div.fetching {
+		p {
+			margin: 0 0 1rem;
+			color: $cinza-2;
+			span { color: $cinza-1; }
+		}
+		.icon-novamente::before {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.5rem;
+			color: #FFF;
+			background-color: $cinza-1;
+			border-radius: 100%;
+			animation: roda linear 1s infinite reverse;
+			@keyframes roda {
+				0% { transform: rotate(0deg); }
+				100% { transform: rotate(360deg); }
+			}
+		}
+	}
+	ul.errors {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		li {
+			display: flex;
+			align-items: center;
+			margin: 1rem 0;
+			background-color: $cinza-3;
+			text-align: left;
+			font-size: small;
+			line-height: 1.2;
+			padding: 0.75rem 1rem;
+			animation: surge ease-in .4s;
+			border-radius: 0.25rem;
+			@keyframes surge {
+				from { opacity: 0; }
+				to { opacity: 1; }
+			}
+			& > span {
+				display: inline-block;
+				font-weight: 700;
+				line-height: 1rem;
+				width: 1rem;
+				text-align: center;
+				background-color: $vermelho;
+				color: #FFF;
+				border-radius: 1rem;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+	div#dev {
+		position: absolute;
+		top: 1rem;
+		left: 1rem;
+		opacity: 0.1;
+	}
 }
 </style>

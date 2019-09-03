@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		user: {
-			logged: false, // process.env.NODE_ENV !== 'production', // true just for development. Go to http://localhost:8080/#/user/foo@bar.com/carnaval2020
+			logged: true, // process.env.NODE_ENV !== 'production', // true just for development. Go to http://localhost:8080/#/user/foo@bar.com/carnaval2020
 			error: false,
 			message: '',
 			desfiles: []
@@ -24,7 +24,7 @@ export default new Vuex.Store({
 		LOGIN_STATUS: (state, response) => {
 			state.user.error = false
 			state.user.logged = response.status
-			state.user.message = response.message,
+			state.user.message = response.message
 			state.user.desfiles = response.desfiles
 		},
 		LOGIN_ERROR: (state, error) => {

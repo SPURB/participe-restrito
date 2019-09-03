@@ -1,22 +1,271 @@
-.login, .form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	line-height: 1
+@import '_variables.scss';
+
+* { box-sizing: border-box; }
+
+*::selection { background-color: $vermelho; }
+
+@keyframes oscila {
+	0% { transform: translateY(-50%) translateX(0); }
+	25% { transform: translateY(-50%) translateX(-0.25rem); }
+	50% { transform: translateY(-50%) translateX(0); }
+	70% { transform: translateY(-50%) translateX(0.25rem); }
 }
 
-span, .login__form {
-	display: flex;
-	flex-direction: column;
-	min-width: 50%;
+form {
+	margin: 0;
+	padding: 0;
+	fieldset {
+		padding: 0;
+		margin: 0 0 1.5rem;
+		border: none;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+a {
+	text-decoration: none;
+	color: $vermelho;
+	&:active { background-color: $vermelho-tr; }
+}
+
+h3 {
+	font-size: 2rem;
+	color: $preto;
+	margin: 6rem 0 1rem;
+	line-height: 1.6;
+}
+
+section:first-child h3 { margin-top: 0; }
+
+h4 {
+	font-size: 1.15rem;
+	color: $preto;
+	line-height: 1.6;
+	margin: 0 0 1rem;
+}
+
+input[type="radio"] {
+	margin: 0 0.25rem 0 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: 1px solid $cinza-1;
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 0.25rem;
+	position: relative;
+	cursor: pointer;
+	&::after {
+		position: absolute;
+		top: calc(0.125rem/2);
+		left: calc(0.125rem/2);
+		display: inline-block;
+		content: '';
+		width: 0.5rem;
+		height: 0.5rem;
+		background-color: $preto;
+		border-radius: 2px;
+		opacity: 0;
+		transition: opacity ease-in .1s;
+	}
+	&:checked::after { opacity: 1; }
+}
+
+input[type="checkbox"] {
+	margin: 0 0.25rem 0 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	vertical-align: -2px;
+	width: 1rem;
+	height: 1rem;
+	border: 1px solid $cinza-1;
+	border-radius: 2px;
+	position: relative;
+	&::after {
+		position: absolute;
+		top: calc(0.125rem/2);
+		left: calc(0.125rem/2);
+		display: inline-block;
+		content: '';
+		width: 0.75rem;
+		height: 0.75rem;
+		background-color: $preto;
+		border-radius: 2px;
+		opacity: 0;
+		transition: opacity ease-in .1s;
+	}
+	&:checked::after { opacity: 1; }
+	&.erro + label {
+		font-weight: 700;
+		color: $vermelho;
+	}
+} 
+
+input[type="radio"] + *[class$="label"], input[type="checkbox"] + *[class$="label"] {
+	color: $preto;
+	line-height: 1.6;
+	text-transform: none;
+	vertical-align: baseline;
+	@media (max-width: 600px) {
+		font-size: 1rem;
+	}
+}
+
+::-webkit-input-placeholder { color: $cinza-1; }
+:-ms-input-placeholder { color: $cinza-1; }
+::placeholder { color: $cinza-1; }
+
+.login__input, .create__input, .update__input {
+	font-family: $grotesca;
+	font-size: 1rem;
+	line-height: 1.2;
+	border: none;
+	background-color: $cinza-3;
+	border-radius: 0.25rem;
+	padding: 0.85rem 1rem calc(0.85rem - 4px);
+	width: 100%;
+	color: $preto;
+	caret-color: $vermelho;
+	border-bottom: 4px solid transparent;
+	resize: none;
+	transition: all ease-in .2s;
+	&:focus { border-bottom-color: $preto; }
+	&[name^="cep"], &[name^="publico"] {
+		width: auto;
+		& + a {
+			vertical-align: top;
+			display: inline-block;
+			background-color: $cinza-1;
+			padding: calc(0.75rem - 4px) 0.5rem;
+			border-radius: 4px;
+			color: #FFF;
+			text-decoration: none;
+			border: 4px solid $branco-clique;
+			&:hover { background-color: $cinza-2; }
+		}
+	}
+	&[name^="cep"] {
+		margin-right: 0.5rem;
+	}
+	&[name^="publico"] {
+		@media (max-width: 600px) {
+			min-width: 100%;
+		}
+	}
+	&[type="number"] {
+		width: auto;
+	}
+}
+
+.inputErro {
+	background-color: $vermelho;
+	color: #FFF;
+	box-shadow: none;
+	caret-color: #FFF;
 }
 
 .login__label {
-	margin-top:1em
+	display: block;
+	margin: 0 0 1rem;
 }
 
 .login__button {
-	margin-top: 1em;
-	padding: 0.25rem
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	background-color: $vermelho;
+	color: #FFF;
+	border: none;
+	border-radius: 100%;
+	cursor: pointer;
+	transition: all ease-in .1s;
+	.icon { font-size: 1.25rem; }
+	&[disabled] {
+		cursor: default;
+		background-color: $cinza-3;
+		&:hover { background-color: $cinza-3; }
+	}
+	&:hover { background-color: $vermelho-tr; }
+}
+
+.create__label, .update__label {
+	display: inline-block;
+	line-height: 1.6;
+	text-transform: uppercase;
+	color: $cinza-1;
+	margin: 0 0 0.5rem;
+	&[for^="cep"], &[for^="publico"], &[for^="n_"], &[for="ano_fundacao"] {
+		margin-right: 0.5rem;
+		@media (max-width: 600px) {
+			display: block;
+		}
+	}
+	& + label + input, & + input:not([class]) {
+		font-family: $grotesca;
+		font-size: 1rem;
+		color: $preto;
+		line-height: 1.2;
+		padding: 0.35rem 0.5rem;
+		border-radius: 0.25px;
+		border: none;
+		background-color: $cinza-3;
+		margin-left: 1rem;
+	}
+	& + label > span.inputComplemento::before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		width: 0.25rem;
+		height: 0.25rem;
+		border-radius: 100%;
+		background-color: $cinza-1;
+		margin: 0 0.45rem 0 0.5rem;
+	}
+	@media (max-width: 600px) {
+		font-size: small;
+		margin-bottom: 0.25rem;
+	}
+}
+
+div.check-errors, div.custom-errors {
+	margin: 1.5rem 0;
+	& > h5 {
+		color: $cinza-1;
+		font-weight: normal;
+		text-transform: uppercase;
+		font-size: 1rem;
+		margin: 2rem 0 0.25rem;
+		line-height: 1.6;
+		@media (max-width: 600px) {
+			font-size: small;
+			margin-bottom: 0.25rem;
+		}
+	}
+	& > ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+	& > p {
+		margin: 0 0 2rem;
+		font-size: small;
+		color: $cinza-1;
+		padding-left: 1rem;
+		line-height: 1.6;
+	}
+}
+
+p.obs {
+	font-size: 0.8rem;
+	line-height: 1.6;
+	margin: 0.5rem 0 0;
+	padding: 0 1rem;
+	color: $cinza-1;
+	&::before { content: '('; }
+	&::after { content: ')'; }
 }

@@ -1,7 +1,11 @@
 <template>
 	<div class="carnaval2020">
-		<h1>{{this.$route.name}}</h1>
-		<p>Você entrou como {{$route.params.email}}</p>
+		<header>
+			<main>
+				<h1>{{ this.$route.name }}</h1>
+				<p>Você entrou como <span>{{ $route.params.email }}</span></p>
+			</main>
+		</header>
 
 		<FormUpdate :formFields="formFields" v-if="userCanUpdateThisRoute"></FormUpdate>
 		<FormCreate v-if="create" :id_contato="0"></FormCreate>
@@ -44,6 +48,9 @@ export default {
 		userValidRoutes () { return this.user.desfiles.map(desfile => desfile.id) },
 		userCanUpdateThisRoute () {
 			return !!(this.userValidRoutes.find(id => this.update.id === id) && this.update.status)
+		},
+		nomeDoBloco () {
+			return this.$route.query.id === 0 ? 'Novo bloco' : 'Inserir nome do bloco aqui, de /desfiles'
 		}
 	},
 	methods: {
@@ -99,3 +106,39 @@ export default {
 	}
 }
 </script>
+<style lang="scss" scoped>
+@import '@/assets/_variables.scss';
+.carnaval2020 {
+	header {
+		display: flex;
+		align-items: stretch;
+		justify-content: space-between;
+		background-color: $sombra-1;
+		text-align: left;
+		color: #FFF;
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		width: 100%;
+		z-index: 1;
+		main {
+			padding: 1.75rem 0 1.75rem 2rem;
+			h1 {
+				font-size: 1rem;
+				margin: 0 0 0.5rem;
+			}
+			p {
+				font-size: small;
+				color: $cinza-1;
+				margin: 0;
+				& > span { color: $cinza-2; }
+			}
+		}
+		@media (max-width: 600px) {
+			main {
+				padding: 0.85rem 1rem;
+			}
+		}
+	}
+}
+</style>

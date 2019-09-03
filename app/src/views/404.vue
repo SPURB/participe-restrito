@@ -1,8 +1,11 @@
 <template>
 	<div class="user-forbidden">
-		<p>404</p>
-		<p v-if="user.message !=''">{{user.message}}</p>
-		<button class="user-forbidden__button" @click.prevent="goBack">Tentar novamente</button>
+		<main>
+			<h1>404</h1>
+			<p v-if="user.message !=''">{{ user.message }}</p>
+			<p>usuário inválido</p>
+		</main>
+		<button class="user-forbidden__button login__button" @click.prevent="goBack"><i class="icon-seta_esquerda icon"><span>seta_esquerda</span></i></button>
 
 		<LoginError :log="error"></LoginError>
 
@@ -26,15 +29,30 @@ export default {
 	}
 }
 </script>
-<style lang="scss">
-	.user-forbidden {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
+<style lang="scss" scoped>
+@import '@/assets/_variables.scss';
+
+.user-forbidden {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - 140px);
+	main {
+		font-family: $grotesca;
+		color: $preto;
+		text-align: center;
+		border-radius: 4px;
+		margin: 0 0 1.5rem;
+		h1 {
+			margin: 0;
+			font-size: 1rem;
+		}
+		p {
+			font-size: small;
+			color: $vermelho-tr;
+			margin: 0;
+		}
 	}
-	.user-forbidden__button {
-		margin-bottom: 2rem
-	}
+}
 </style>

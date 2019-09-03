@@ -32,7 +32,7 @@ const router = new Router({
 					children: [
 						{
 							path: 'carnaval2020',
-							name: 'Carnaval de rua 2020',
+							name: 'Carnaval de Rua 2020',
 							component: () => import(/* webpackChunkName: "carnaval2020" */ './views/consultas/Carnaval2020.vue')
 						}
 					]
