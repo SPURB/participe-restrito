@@ -9,6 +9,7 @@ class Desfile extends GenericDAO{
 	private $artistas;
     private $autoriza_divulgacao;
     private $bairro_concentracao;
+    private $bairro_dispersao;
     private $banda_em_trio_ou_solo;
     private $bateria;
 	private $bloco_comunitario;
