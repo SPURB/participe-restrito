@@ -4,11 +4,11 @@ require_once "Restrict.php";
 
 class Contato extends GenericDAO implements Restrict{
 	
+    private $id;
 	private $cpf_cnpj_coresponsavel;
 	private $cpf_cnpj_responsavel;
 	private $email_coresponsavel;
 	private $email_responsavel;
-	private $id;
     private $nome_coresponsavel;
     private $nome_responsavel;
     private $telefone_coresponsavel;
@@ -42,7 +42,7 @@ class Contato extends GenericDAO implements Restrict{
     * Dados sensiveis de contato devem ser revelados somente a usuario com chave de autoriz
     */
     private function generateKey($obj){
-        return md5($obj->email_responsavel.$obj->nome_responsavel);
+        return md5($obj->email_responsavel.$obj->cpf_cnpj_responsavel);
     }
     
     public function getRestrictProps(){

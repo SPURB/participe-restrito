@@ -1,4 +1,4 @@
 *.properties
-*.logs
+/api/logs
 api.config.json
 node_modules

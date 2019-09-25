@@ -3,6 +3,7 @@ require_once "GenericDAO.php";
 
 class Desfile extends GenericDAO{
 	
+    private $id;
 	private $aceite_das_regras;
 	private $ano_fundacao;
 	private $apoiadores;
@@ -25,7 +26,6 @@ class Desfile extends GenericDAO{
     private $hr_concentracao;
     private $hr_desfile;
     private $hr_encerramento;
-    private $id;
     private $id_contato;
     private $id_percurso;
     private $interesse_cadastrar_ambulantes;
