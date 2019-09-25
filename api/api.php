@@ -32,6 +32,13 @@ else {
 	}
 
 	$request = array_filter($requestPaths, 'removeVersion');
+    //Remover partes da URL da requisicao
+    while(count($request) > 2){
+        array_shift($request);
+    }
+	if($request[0] == 'participe-restrito'){
+		array_shift($request);
+	}
 
 	$result = NULL;
 	$result = APIFactory::executeRequest($method, $request, TRUE);
