@@ -15,7 +15,7 @@ class Put extends APIMethod{
 		$result=NULL;
         
         try{
-            $headers = getallheaders();
+            $headers = parent::getAllHeaders();
             //Header 'Current' deve conter a key de autorização
             $token = $headers['Current'];
             if(!isset($token) || APIKey::check($token) !== TRUE){

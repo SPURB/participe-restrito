@@ -18,6 +18,15 @@ abstract class APIMethod {
         return $functions;
     }
     
+    /*
+    *   Headers customizados devem ser informados aqui para que sejam tratados antes do nginx
+    */
+    protected static function getCustomHeaders(){
+        return array(
+            "Current"
+        );
+    }
+
     
     /*
     * Obter instancia da classe correspondente a tabela requisitada
@@ -41,6 +50,28 @@ abstract class APIMethod {
         
         return $model;
 	}
+
+    /*
+    * getallheaders nao funciona no nginx/fpm
+    */
+    protected static function getAllHeaders(){
+        if (!function_exists('getallheaders')) {
+            if (!is_array($_SERVER)) {
+                return array();
+            }
+            $headers = [];
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }else if(in_array($name, self::getCustomHeaders())){
+                    $headers[$name] = $value;
+                }
+            }
+            return $headers;
+        }
+        return getallheaders();
+    }
+
 }
 
 ?>

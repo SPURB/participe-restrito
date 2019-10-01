@@ -62,9 +62,12 @@ class Logger{
 			try{
 				$logFile = fopen(self::$LOGPATH, "w");//write do zero
 				fclose($logFile);
-				self::write($message);
+                if(!file_exists($logFile)){
+				    throw new Exception("Erro ao criar o log ".self::$LOGPATH);
+                }
+                self::write($message);
 			}catch(Exception $ex){
-				error_log($ex->getMessage());
+				error_log($ex->getMessage()." mensagem original ".$message);
 			}
 		}
 		

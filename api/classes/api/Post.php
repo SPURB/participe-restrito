@@ -13,7 +13,7 @@ class Post extends APIMethod{
 		$input = json_decode(file_get_contents('php://input'),true);
 		
 		try{
-			$headers = getallheaders();
+			$headers = parent::getAllHeaders();
             //Header 'Current' deve conter a key de autorização
 			$token = $headers['Current'];
 			if(!isset($token) || APIKey::check($token) !== TRUE){
